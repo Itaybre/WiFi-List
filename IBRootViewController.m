@@ -1,7 +1,9 @@
 #import "IBRootViewController.h"
+#import "IBWiFiManager.h"
+#import "MobileWiFi.h"
+
 
 @interface IBRootViewController ()
-@property (nonatomic, strong) NSMutableArray * objects;
 @end
 
 @implementation IBRootViewController
@@ -9,16 +11,12 @@
 - (void)loadView {
 	[super loadView];
 
-	_objects = [NSMutableArray array];
-
 	self.title = @"WiFi List";
-	self.navigationItem.leftBarButtonItem = self.editButtonItem;
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonTapped:)];
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTapped:)];
 }
 
-- (void)addButtonTapped:(id)sender {
-	[_objects insertObject:[NSDate date] atIndex:0];
-	[self.tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:0 inSection:0] ] withRowAnimation:UITableViewRowAnimationAutomatic];
+- (void)shareTapped:(id)sender {
+	NSLog(@"WiFiList - Share Tapped");
 }
 
 #pragma mark - Table View Data Source
@@ -28,7 +26,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return _objects.count;
+	return [IBWiFiManager sharedManager].networks.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -36,17 +34,13 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
 	if (!cell) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
 	}
 
-	NSDate *date = _objects[indexPath.row];
-	cell.textLabel.text = date.description;
+	WiFiNetworkRef network = (__bridge WiFiNetworkRef) [IBWiFiManager sharedManager].networks[indexPath.row];
+	cell.textLabel.text = (__bridge NSString *) WiFiNetworkGetSSID(network);
+	cell.detailTextLabel.text = (__bridge NSString *) WiFiNetworkCopyPassword(network);
 	return cell;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-	[_objects removeObjectAtIndex:indexPath.row];
-	[tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Table View Delegate
