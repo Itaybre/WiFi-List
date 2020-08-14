@@ -1,7 +1,7 @@
 #import "IBRootViewController.h"
 #import "IBWiFiManager.h"
 #import "MobileWiFi.h"
-
+#import "IBWiFiNetwork.h"
 
 @interface IBRootViewController ()
 @end
@@ -42,9 +42,9 @@
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
 	}
 
-	WiFiNetworkRef network = (__bridge WiFiNetworkRef) [IBWiFiManager sharedManager].networks[indexPath.row];
-	cell.textLabel.text = (__bridge NSString *) WiFiNetworkGetSSID(network);
-	cell.detailTextLabel.text = (__bridge NSString *) WiFiNetworkCopyPassword(network);
+	IBWiFiNetwork *network = [IBWiFiManager sharedManager].networks[indexPath.row];
+	cell.textLabel.text = network.name;
+	cell.detailTextLabel.text = network.password;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	return cell;
 }

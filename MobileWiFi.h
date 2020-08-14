@@ -10,4 +10,4 @@ extern Boolean WiFiNetworkIsWEP(WiFiNetworkRef network);
 extern Boolean WiFiNetworkIsWPA(WiFiNetworkRef network);
 extern Boolean WiFiNetworkIsEAP(WiFiNetworkRef network);
 extern CFStringRef WiFiNetworkCopyPassword(WiFiNetworkRef network);
-extern CFDicrionaryRef WiFiNetworkCopyRecord(WiFiNetworkRef network)
+extern CFDictionaryRef WiFiNetworkCopyRecord(WiFiNetworkRef network);
