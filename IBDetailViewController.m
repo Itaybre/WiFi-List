@@ -97,6 +97,11 @@
     if (indexPath.section == 2) {
         IBDictionaryViewController *viewController = [[IBDictionaryViewController alloc] initWithDictionary:self.network.allRecords];
         [self.navigationController pushViewController:viewController animated:true];
+    } else if (indexPath.section == 3 && self.network.encryption == EAP) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Sharing Enterprise networks is not supported" preferredStyle:UIAlertControllerStyleAlert];
+	    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil];
+	    [alert addAction:okAction];
+	    [self presentViewController:alert animated:YES completion:nil];
     } else if (indexPath.section == 3) {
         IBShareViewController *viewController = [[IBShareViewController alloc] initWithNetwork:self.network];
         [self.navigationController pushViewController:viewController animated:true];
