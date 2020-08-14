@@ -1,5 +1,6 @@
 #import "IBDetailViewController.h"
 #import "IBWiFiNetwork.h"
+#import "IBDictionaryViewController.h"
 
 @interface IBDetailViewController () 
 @property (nonatomic, strong) IBWiFiNetwork *network;
@@ -8,8 +9,7 @@
 @implementation IBDetailViewController
 
 - (id)initWithNetwork:(IBWiFiNetwork *)network; {
-    self = [super initWithStyle:UITableViewStyleInsetGrouped];
-    if (self) {
+    if (self = [super initWithStyle:UITableViewStyleInsetGrouped]) {
         self.network = network;
     }
     return self;
@@ -24,7 +24,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -78,15 +78,24 @@
             cell.textLabel.text = @"Last Joined";
             cell.detailTextLabel.text = [formatter stringFromDate:self.network.lastJoined];
         }
-    } else {
+    } else if (indexPath.section == 2) {
         cell.textLabel.text = @"View Raw Data";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    } else {
+        cell.textLabel.text = @"Create QR Code";
     }
     
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 2) {
+        IBDictionaryViewController *viewController = [[IBDictionaryViewController alloc] initWithDictionary:self.network.allRecords];
+        [self.navigationController pushViewController:viewController animated:true];
+    } else {
+        
+    }
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
