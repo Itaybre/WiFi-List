@@ -11,8 +11,8 @@ include $(THEOS)/makefiles/common.mk
 
 APPLICATION_NAME = WiFiList
 
-WiFiList_FILES = main.m IBAppDelegate.m IBRootViewController.m IBWiFiManager.m IBWiFiNetwork.m IBDetailViewController.m IBDictionaryViewController.m
-WiFiList_FRAMEWORKS = UIKit CoreGraphics
+WiFiList_FILES = main.m IBAppDelegate.m IBRootViewController.m IBWiFiManager.m IBWiFiNetwork.m IBDetailViewController.m IBDictionaryViewController.m IBShareViewController.m
+WiFiList_FRAMEWORKS = UIKit CoreGraphics CoreImage
 WiFiList_PRIVATE_FRAMEWORKS = MobileWiFi
 WiFiList_CFLAGS = -fobjc-arc
 WiFiList_CODESIGN_FLAGS = -Sentitlements.plist

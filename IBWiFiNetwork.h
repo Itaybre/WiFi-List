@@ -11,6 +11,7 @@ typedef NS_ENUM(NSInteger, Encryption) {
 @interface IBWiFiNetwork: NSObject
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *password;
+@property (nonatomic) BOOL isHidden;
 @property (nonatomic) NSInteger channel;
 @property (nonatomic, strong) NSDate *added;
 @property (nonatomic, strong) NSDate *lastManualJoin;

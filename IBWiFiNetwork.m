@@ -10,6 +10,7 @@
 
         self.channel = [[self.allRecords objectForKey:@"CHANNEL"] integerValue];
         self.added = [self.allRecords objectForKey:@"addedAt"];
+        self.isHidden = [[self.allRecords objectForKey:@"HIDDEN_NETWORK"] boolValue];
         self.lastManualJoin = [self.allRecords objectForKey:@"lastJoined"];
         self.lastAutoJoin = [self.allRecords objectForKey:@"lastAutoJoined"];
 

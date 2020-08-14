@@ -1,6 +1,7 @@
 #import "IBDetailViewController.h"
 #import "IBWiFiNetwork.h"
 #import "IBDictionaryViewController.h"
+#import "IBShareViewController.h"
 
 @interface IBDetailViewController () 
 @property (nonatomic, strong) IBWiFiNetwork *network;
@@ -33,7 +34,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 3;
+        return 4;
     } else if (section == 1) {
         return 3;
     }
@@ -64,9 +65,12 @@
         } else if (indexPath.row == 1) {
             cell.textLabel.text = @"Password";
             cell.detailTextLabel.text = self.network.password;
-        } else {
+        } else if (indexPath.row == 2) {
             cell.textLabel.text = @"Encryption";
             cell.detailTextLabel.text = self.network.encryption == WEP ? @"WEP" : self.network.encryption == WPA ? @"WPA/WPA2" : self.network.encryption == EAP ? @"EAP" : @"None";
+        } else {
+            cell.textLabel.text = @"Hidden";
+            cell.detailTextLabel.text = self.network.isHidden ? @"Yes" : @"No";
         }
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
@@ -93,8 +97,9 @@
     if (indexPath.section == 2) {
         IBDictionaryViewController *viewController = [[IBDictionaryViewController alloc] initWithDictionary:self.network.allRecords];
         [self.navigationController pushViewController:viewController animated:true];
-    } else {
-        
+    } else if (indexPath.section == 3) {
+        IBShareViewController *viewController = [[IBShareViewController alloc] initWithNetwork:self.network];
+        [self.navigationController pushViewController:viewController animated:true];
     }
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
