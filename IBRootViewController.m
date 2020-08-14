@@ -12,10 +12,15 @@
 	[super loadView];
 
 	self.title = @"WiFi List";
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Sort"] style:UIBarButtonItemStylePlain target:self action:@selector(sortTapped:)];
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTapped:)];
 }
 
 - (void)shareTapped:(id)sender {
+	NSLog(@"WiFiList - Share Tapped");
+}
+
+- (void) sortTapped:(id)sender {
 	NSLog(@"WiFiList - Share Tapped");
 }
 
@@ -40,6 +45,7 @@
 	WiFiNetworkRef network = (__bridge WiFiNetworkRef) [IBWiFiManager sharedManager].networks[indexPath.row];
 	cell.textLabel.text = (__bridge NSString *) WiFiNetworkGetSSID(network);
 	cell.detailTextLabel.text = (__bridge NSString *) WiFiNetworkCopyPassword(network);
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	return cell;
 }
 
