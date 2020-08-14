@@ -96,7 +96,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	IBWiFiNetwork *network = [IBWiFiManager sharedManager].networks[indexPath.row];
-	IBDetailViewController *detail = [[IBDetailViewController alloc] initWithDictionary:network.allRecords];
+	IBDetailViewController *detail = [[IBDetailViewController alloc] initWithNetwork:network];
     [self.navigationController pushViewController:detail animated:true];
 }
 

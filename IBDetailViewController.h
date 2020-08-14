@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 
+@class IBWiFiNetwork;
+
 @interface IBDetailViewController: UITableViewController
-@property (nonatomic, strong) NSDictionary *records;
-- (id)initWithDictionary:(NSDictionary*)dict;
+- (id)initWithNetwork:(IBWiFiNetwork *)network;
 @end
