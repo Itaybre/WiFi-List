@@ -73,10 +73,10 @@
             cell.textLabel.text = @"Added";
             cell.detailTextLabel.text = [self.formatter stringFromDate:self.network.added];
         } else if (indexPath.row == 1) {
-            cell.textLabel.text = @"Last Manually Joined";
+            cell.textLabel.text = @"Last Manual Join";
             cell.detailTextLabel.text = [self.formatter stringFromDate:self.network.lastManualJoin];
         } else if (indexPath.row == 2) {
-            cell.textLabel.text = @"Last Automatically Joined";
+            cell.textLabel.text = @"Last Auto Join";
             cell.detailTextLabel.text = [self.formatter stringFromDate:self.network.lastAutoJoin];
         }
     } else if (indexPath.section == 2) {
