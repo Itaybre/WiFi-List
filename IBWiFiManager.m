@@ -22,7 +22,7 @@
 }
 
 - (void) refreshNetworks {
-    [self loadNetworks];
+    self.networks = [self sortNetworks:self.networks];
 }
 
 - (void) loadNetworks {
@@ -31,20 +31,23 @@
         NSArray *allNetworks = (__bridge NSArray *) WiFiManagerClientCopyNetworks(manager);
         NSArray *filteredNetworks = [self filterOpenNetworks:allNetworks]; 
         NSArray *mappedNetworks = [self mapNetworks:filteredNetworks];
+        self.networks = [self sortNetworks:mappedNetworks];
+    }
+}
 
-        if (self.sortCriteria == NAME_ASC) {
-            self.networks = [self sortByName:mappedNetworks ascending:YES];
-        } else if (self.sortCriteria == NAME_DESC) {
-            self.networks = [self sortByName:mappedNetworks ascending:NO];
-        } else if (self.sortCriteria == ADDED_ASC) {
-            self.networks = [self sortByAdded:mappedNetworks ascending:YES];
-        } else if (self.sortCriteria == ADDED_DESC) {
-            self.networks = [self sortByAdded:mappedNetworks ascending:NO];
-        } else if (self.sortCriteria == LAST_JOINED_ASC) {
-            self.networks = [self sortByLastJoined:mappedNetworks ascending:YES];
-        } else if (self.sortCriteria == LAST_JOINED_DESC) {
-            self.networks = [self sortByLastJoined:mappedNetworks ascending:NO];
-        }
+- (NSArray *) sortNetworks: (NSArray *)networks {
+    if (self.sortCriteria == NAME_ASC) {
+        return [self sortByName:networks ascending:YES];
+    } else if (self.sortCriteria == NAME_DESC) {
+        return [self sortByName:networks ascending:NO];
+    } else if (self.sortCriteria == ADDED_ASC) {
+        return [self sortByAdded:networks ascending:YES];
+    } else if (self.sortCriteria == ADDED_DESC) {
+        return [self sortByAdded:networks ascending:NO];
+    } else if (self.sortCriteria == LAST_JOINED_ASC) {
+        return [self sortByLastJoined:networks ascending:YES];
+    } else if (self.sortCriteria == LAST_JOINED_DESC) {
+        return [self sortByLastJoined:networks ascending:NO];
     }
 }
 
