@@ -3,8 +3,9 @@
 #import "MobileWiFi.h"
 #import "IBWiFiNetwork.h"
 #import "IBDetailViewController.h"
+#import <MessageUI/MessageUI.h>
 
-@interface IBRootViewController () <UISearchResultsUpdating>
+@interface IBRootViewController () <UISearchResultsUpdating, MFMailComposeViewControllerDelegate>
 @property (nonatomic, strong) UISearchController *searchController;
 @end
 
@@ -26,7 +27,19 @@
 }
 
 - (void)shareTapped:(id)sender {
-	NSLog(@"WiFiList - Share Tapped");
+	if ([MFMailComposeViewController canSendMail]) {
+		MFMailComposeViewController *mailVC = [[MFMailComposeViewController alloc] init];
+
+		[mailVC setSubject:[NSString stringWithFormat:@"WiFi List from %@", [[UIDevice currentDevice] name]]];
+
+		NSMutableString *mailContent = [NSMutableString string];
+		for(IBWiFiNetwork *network in [IBWiFiManager sharedManager].networks) {
+			[mailContent appendFormat:@"<b>%@</b><br />%@<br /><br />", network.name, network.password];
+		}
+
+		[mailVC setMessageBody:mailContent isHTML:YES];
+		[self presentViewController:mailVC animated:YES completion:nil];
+	}
 }
 
 - (void) sortTapped:(id)sender {
