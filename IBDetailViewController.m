@@ -4,6 +4,7 @@
 
 @interface IBDetailViewController () 
 @property (nonatomic, strong) IBWiFiNetwork *network;
+@property (nonatomic, strong) NSDateFormatter *formatter;
 @end
 
 @implementation IBDetailViewController
@@ -11,6 +12,9 @@
 - (id)initWithNetwork:(IBWiFiNetwork *)network; {
     if (self = [super initWithStyle:UITableViewStyleInsetGrouped]) {
         self.network = network;
+
+        self.formatter = [[NSDateFormatter alloc] init];
+        [self.formatter setDateFormat:@"dd MMM yyyy HH:mm"];
     }
     return self;
 }
@@ -31,7 +35,7 @@
     if (section == 0) {
         return 3;
     } else if (section == 1) {
-        return 2;
+        return 3;
     }
 
     return 1;
@@ -66,17 +70,14 @@
         }
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"dd MMM yyyy HH:mm"];
-
             cell.textLabel.text = @"Added";
-            cell.detailTextLabel.text = [formatter stringFromDate:self.network.added];
+            cell.detailTextLabel.text = [self.formatter stringFromDate:self.network.added];
         } else if (indexPath.row == 1) {
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"dd MMM yyyy HH:mm"];
-            
-            cell.textLabel.text = @"Last Joined";
-            cell.detailTextLabel.text = [formatter stringFromDate:self.network.lastJoined];
+            cell.textLabel.text = @"Last Manually Joined";
+            cell.detailTextLabel.text = [self.formatter stringFromDate:self.network.lastManualJoin];
+        } else if (indexPath.row == 2) {
+            cell.textLabel.text = @"Last Automatically Joined";
+            cell.detailTextLabel.text = [self.formatter stringFromDate:self.network.lastAutoJoin];
         }
     } else if (indexPath.section == 2) {
         cell.textLabel.text = @"View Raw Data";

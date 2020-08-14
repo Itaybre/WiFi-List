@@ -10,7 +10,8 @@
 
         self.channel = [[self.allRecords objectForKey:@"CHANNEL"] integerValue];
         self.added = [self.allRecords objectForKey:@"addedAt"];
-        self.lastJoined = [self.allRecords objectForKey:@"lastAutoJoined"];
+        self.lastManualJoin = [self.allRecords objectForKey:@"lastJoined"];
+        self.lastAutoJoin = [self.allRecords objectForKey:@"lastAutoJoined"];
 
         if (WiFiNetworkIsWEP(network)) {
             self.encryption = WEP;
@@ -23,6 +24,13 @@
         }
     }
     return self;
+}
+
+- (NSDate *) lastJoinDate {
+    if ([self.lastManualJoin compare:self.lastAutoJoin] == NSOrderedDescending) {
+        return self.lastManualJoin;
+    }
+    return self.lastAutoJoin;
 }
 
 @end

@@ -116,7 +116,7 @@
 
 - (NSArray *) sortByLastJoined:(NSArray *)networks ascending:(BOOL) ascending {
     return [networks sortedArrayUsingComparator: ^(IBWiFiNetwork *network1, IBWiFiNetwork *network2) {
-        NSComparisonResult result = [network1.lastJoined compare:network2.lastJoined];
+        NSComparisonResult result = [[network1 lastJoinDate] compare:[network2 lastJoinDate]];
         if (ascending) {
             return result;
         } else if (result == NSOrderedAscending) {

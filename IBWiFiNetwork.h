@@ -13,9 +13,12 @@ typedef NS_ENUM(NSInteger, Encryption) {
 @property (nonatomic, copy) NSString *password;
 @property (nonatomic) NSInteger channel;
 @property (nonatomic, strong) NSDate *added;
-@property (nonatomic, strong) NSDate *lastJoined;
+@property (nonatomic, strong) NSDate *lastManualJoin;
+@property (nonatomic, strong) NSDate *lastAutoJoin;
 @property (nonatomic) Encryption encryption;
 @property (nonatomic, retain) NSDictionary *allRecords;
 
 - (instancetype) initWithNetwork:(WiFiNetworkRef) network;
+- (NSDate *) lastJoinDate;
+
 @end

@@ -5,7 +5,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	_window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-	_rootViewController = [[UINavigationController alloc] initWithRootViewController:[[IBRootViewController alloc] init]];
+	_rootViewController = [[UINavigationController alloc] initWithRootViewController:[[IBRootViewController alloc] initWithStyle:UITableViewStyleInsetGrouped]];
 	_window.rootViewController = _rootViewController;
 	[_window makeKeyAndVisible];
 }
