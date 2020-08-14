@@ -16,5 +16,6 @@ typedef NS_ENUM(NSInteger, SortCriteria) {
 
 + (instancetype) sharedManager;
 - (void) refreshNetworks;
+- (void) setFilter:(NSString *)text;
 
 @end

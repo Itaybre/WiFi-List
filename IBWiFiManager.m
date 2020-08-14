@@ -2,6 +2,10 @@
 #import "MobileWiFi.h"
 #import "IBWiFiNetwork.h"
 
+@interface IBWiFiManager ()
+@property (nonatomic, retain) NSArray *unfilteredNetworks;
+@end
+
 @implementation IBWiFiManager
 
 + (instancetype) sharedManager {
@@ -22,7 +26,19 @@
 }
 
 - (void) refreshNetworks {
-    self.networks = [self sortNetworks:self.networks];
+    self.networks = [self sortNetworks:self.unfilteredNetworks];
+    self.unfilteredNetworks = self.networks;
+}
+
+- (void) setFilter:(NSString *)text {
+    if (!text || [text isEqual:@""]) {
+        self.networks = self.unfilteredNetworks;
+        return;
+    }
+
+    self.networks = [self.unfilteredNetworks filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(IBWiFiNetwork *network, NSDictionary *bindings) {
+        return [network.name rangeOfString:text options:NSCaseInsensitiveSearch].location != NSNotFound;
+    }]];
 }
 
 - (void) loadNetworks {
@@ -32,6 +48,7 @@
         NSArray *filteredNetworks = [self filterOpenNetworks:allNetworks]; 
         NSArray *mappedNetworks = [self mapNetworks:filteredNetworks];
         self.networks = [self sortNetworks:mappedNetworks];
+        self.unfilteredNetworks = self.networks;
     }
 }
 
@@ -49,6 +66,8 @@
     } else if (self.sortCriteria == LAST_JOINED_DESC) {
         return [self sortByLastJoined:networks ascending:NO];
     }
+
+    return networks;
 }
 
 - (NSArray *) filterOpenNetworks:(NSArray *) networks {

@@ -4,7 +4,8 @@
 #import "IBWiFiNetwork.h"
 #import "IBDetailViewController.h"
 
-@interface IBRootViewController ()
+@interface IBRootViewController () <UISearchResultsUpdating>
+@property (nonatomic, strong) UISearchController *searchController;
 @end
 
 @implementation IBRootViewController
@@ -15,6 +16,13 @@
 	self.title = @"WiFi List";
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Sort"] style:UIBarButtonItemStylePlain target:self action:@selector(sortTapped:)];
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTapped:)];
+
+	self.searchController = [[UISearchController alloc] init];
+	self.searchController.searchResultsUpdater = self;
+	self.searchController.obscuresBackgroundDuringPresentation = NO;
+	self.searchController.searchBar.placeholder = @"Search Networks";
+	self.navigationItem.searchController = self.searchController;
+	self.definesPresentationContext = YES;
 }
 
 - (void)shareTapped:(id)sender {
@@ -90,6 +98,15 @@
 	IBWiFiNetwork *network = [IBWiFiManager sharedManager].networks[indexPath.row];
 	IBDetailViewController *detail = [[IBDetailViewController alloc] initWithDictionary:network.allRecords];
     [self.navigationController pushViewController:detail animated:true];
+}
+
+#pragma mark - UISearch
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+	UISearchBar *searchBar = searchController.searchBar;
+	NSString *text = searchBar.text;
+	[[IBWiFiManager sharedManager] setFilter:text];
+	[self.tableView reloadData];
 }
 
 @end
