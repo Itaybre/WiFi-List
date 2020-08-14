@@ -2,6 +2,7 @@
 #import "IBWiFiManager.h"
 #import "MobileWiFi.h"
 #import "IBWiFiNetwork.h"
+#import "IBDetailViewController.h"
 
 @interface IBRootViewController ()
 @end
@@ -52,7 +53,9 @@
 #pragma mark - Table View Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	IBWiFiNetwork *network = [IBWiFiManager sharedManager].networks[indexPath.row];
+	IBDetailViewController *detail = [[IBDetailViewController alloc] initWithDictionary:network.records];
+    [self.navigationController pushViewController:detail animated:true];
 }
 
 @end
