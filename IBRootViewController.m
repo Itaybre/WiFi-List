@@ -22,7 +22,41 @@
 }
 
 - (void) sortTapped:(id)sender {
-	NSLog(@"WiFiList - Share Tapped");
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Sort Order" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+	UIAlertAction *nameActionAsc = [UIAlertAction actionWithTitle:@"Name Ascending" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+		[self setSortOrder:NAME_ASC];
+	}];
+	UIAlertAction *nameActionDesc = [UIAlertAction actionWithTitle:@"Name Descending" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+		[self setSortOrder:NAME_DESC];
+	}];
+	UIAlertAction *addedActionAsc = [UIAlertAction actionWithTitle:@"Added Ascending" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+		[self setSortOrder:ADDED_ASC];
+	}];
+	UIAlertAction *addedActionDesc = [UIAlertAction actionWithTitle:@"Added Descending" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+		[self setSortOrder:ADDED_DESC];
+	}];
+	UIAlertAction *joinedActionAsc = [UIAlertAction actionWithTitle:@"Last Joined Ascending" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+		[self setSortOrder:LAST_JOINED_ASC];
+	}];
+	UIAlertAction *joinedActionDesc = [UIAlertAction actionWithTitle:@"Last Joined Descending" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+		[self setSortOrder:LAST_JOINED_DESC];
+	}];
+	[alert addAction:nameActionAsc];
+	[alert addAction:nameActionDesc];
+	[alert addAction:addedActionAsc];
+	[alert addAction:addedActionDesc];
+	[alert addAction:joinedActionAsc];
+	[alert addAction:joinedActionDesc];
+	[self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void) setSortOrder:(SortCriteria) newCriteria {
+	if ([IBWiFiManager sharedManager].sortCriteria == newCriteria) {
+		return;
+	}
+	[IBWiFiManager sharedManager].sortCriteria = newCriteria;
+	[[IBWiFiManager sharedManager] refreshNetworks];
+	[self.tableView reloadData];
 }
 
 #pragma mark - Table View Data Source
@@ -54,7 +88,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	IBWiFiNetwork *network = [IBWiFiManager sharedManager].networks[indexPath.row];
-	IBDetailViewController *detail = [[IBDetailViewController alloc] initWithDictionary:network.records];
+	IBDetailViewController *detail = [[IBDetailViewController alloc] initWithDictionary:network.allRecords];
     [self.navigationController pushViewController:detail animated:true];
 }
 
