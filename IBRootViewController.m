@@ -29,6 +29,7 @@
 - (void)shareTapped:(id)sender {
 	if ([MFMailComposeViewController canSendMail]) {
 		MFMailComposeViewController *mailVC = [[MFMailComposeViewController alloc] init];
+		mailVC.mailComposeDelegate = self; 
 
 		[mailVC setSubject:[NSString stringWithFormat:@"WiFi List from %@", [[UIDevice currentDevice] name]]];
 
@@ -124,6 +125,13 @@
 	NSString *text = searchBar.text;
 	[[IBWiFiManager sharedManager] setFilter:text];
 	[self.tableView reloadData];
+}
+
+#pragma mark - MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error 
+{    
+    [self dismissViewControllerAnimated:YES completion:nil]; 
 }
 
 @end
