@@ -62,12 +62,16 @@
 	UIAlertAction *joinedActionDesc = [UIAlertAction actionWithTitle:@"Last Joined Descending" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
 		[self setSortOrder:LAST_JOINED_DESC];
 	}];
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+
 	[alert addAction:nameActionAsc];
 	[alert addAction:nameActionDesc];
 	[alert addAction:addedActionAsc];
 	[alert addAction:addedActionDesc];
 	[alert addAction:joinedActionAsc];
 	[alert addAction:joinedActionDesc];
+	[alert addAction:cancelAction];
+
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
