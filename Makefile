@@ -17,4 +17,7 @@ WiFiList_PRIVATE_FRAMEWORKS = MobileWiFi
 WiFiList_CFLAGS = -fobjc-arc
 WiFiList_CODESIGN_FLAGS = -Sentitlements.plist
 
+after-install::
+	install.exec "uicache"
+
 include $(THEOS_MAKE_PATH)/application.mk
