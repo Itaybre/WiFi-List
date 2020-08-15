@@ -1,8 +1,11 @@
 Package: com.itaysoft.wifilist
 Name: WiFi List
-Version: 0.0.1
+Version: 1.0.0
 Architecture: iphoneos-arm
-Description: An awesome application!
+Description: View and share WiFi passwords
 Maintainer: Itay
 Author: Itay
 Section: Utilities
+Icon: https://www.icaughtuapp.com/repo/icons/com.itaysoft.wifilist.png
+Depiction: https://www.icaughtuapp.com/repo/depictions/web/?p=com.itaysoft.wifilist
+SileoDepiction: https://www.icaughtuapp.com/repo/depictions/native/com.itaysoft.wifilist/depiction.json
