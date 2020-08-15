@@ -88,6 +88,8 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else {
         cell.textLabel.text = @"Create QR Code";
+        cell.textLabel.textColor = [UIColor linkColor];
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
     }
     
     return cell;
