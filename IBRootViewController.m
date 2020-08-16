@@ -3,13 +3,24 @@
 #import "MobileWiFi.h"
 #import "IBWiFiNetwork.h"
 #import "IBDetailViewController.h"
+#import "IBTableViewCell.h"
 #import <MessageUI/MessageUI.h>
 
-@interface IBRootViewController () <UISearchResultsUpdating, MFMailComposeViewControllerDelegate>
+@interface IBRootViewController () <UISearchResultsUpdating, MFMailComposeViewControllerDelegate, IBTableViewCellDelegate>
 @property (nonatomic, strong) UISearchController *searchController;
 @end
 
 @implementation IBRootViewController
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+
+
+	UIMenuItem *copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"Copy Password" action:@selector(copyPassword:)];
+	UIMenuItem *deleteMenuItem = [[UIMenuItem alloc] initWithTitle:@"Forget Network" action:@selector(deleteNetwork:)];
+	[[UIMenuController sharedMenuController] setMenuItems: @[copyMenuItem, deleteMenuItem]];
+	[[UIMenuController sharedMenuController] update];
+}
 
 - (void)loadView {
 	[super loadView];
@@ -98,17 +109,31 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *CellIdentifier = @"Cell";
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	IBTableViewCell *cell = (IBTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
 	if (!cell) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+		cell = [[IBTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+		cell.delegate = self;
 	}
 
 	IBWiFiNetwork *network = [IBWiFiManager sharedManager].networks[indexPath.row];
-	cell.textLabel.text = network.name;
-	cell.detailTextLabel.text = network.password;
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	[cell setUpForNetwork:network];
+	
 	return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+{
+    return (action == @selector(copyPassword:) || action == @selector(deleteNetwork:));
+}
+
+- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+{
 }
 
 #pragma mark - Table View Delegate
@@ -133,6 +158,12 @@
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error 
 {    
     [self dismissViewControllerAnimated:YES completion:nil]; 
+}
+
+#pragma mark - IBTableViewCellDelegate
+
+- (void) refreshTable {
+	[self.tableView reloadData];
 }
 
 @end
