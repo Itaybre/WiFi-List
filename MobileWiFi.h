@@ -11,3 +11,4 @@ extern Boolean WiFiNetworkIsWPA(WiFiNetworkRef network);
 extern Boolean WiFiNetworkIsEAP(WiFiNetworkRef network);
 extern CFStringRef WiFiNetworkCopyPassword(WiFiNetworkRef network);
 extern CFDictionaryRef WiFiNetworkCopyRecord(WiFiNetworkRef network);
+extern void WiFiManagerClientRemoveNetwork(WiFiManagerRef manager, WiFiNetworkRef network);
