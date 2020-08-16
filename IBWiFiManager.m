@@ -19,7 +19,7 @@
 
 - (instancetype) init {
     if(self = [super init]) {
-        self.sortCriteria = NAME_ASC;
+        self.sortCriteria = [[NSUserDefaults standardUserDefaults] integerForKey:@"sortOrder"];
         [self loadNetworks];
     }
     return self;

@@ -83,6 +83,7 @@
 	[IBWiFiManager sharedManager].sortCriteria = newCriteria;
 	[[IBWiFiManager sharedManager] refreshNetworks];
 	[self.tableView reloadData];
+	[[NSUserDefaults standardUserDefaults] setInteger:newCriteria forKey:@"sortOrder"];
 }
 
 #pragma mark - Table View Data Source
