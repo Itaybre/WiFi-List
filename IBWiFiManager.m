@@ -4,6 +4,7 @@
 
 @interface IBWiFiManager ()
 @property (nonatomic, retain) NSArray *unfilteredNetworks;
+@property (nonatomic) WiFiManagerRef manager;
 @end
 
 @implementation IBWiFiManager
@@ -42,9 +43,9 @@
 }
 
 - (void) loadNetworks {
-    WiFiManagerRef manager = WiFiManagerClientCreate(kCFAllocatorDefault, 0);
-    if (manager) {
-        NSArray *allNetworks = (__bridge NSArray *) WiFiManagerClientCopyNetworks(manager);
+    self.manager = WiFiManagerClientCreate(kCFAllocatorDefault, 0);
+    if (self.manager) {
+        NSArray *allNetworks = (__bridge NSArray *) WiFiManagerClientCopyNetworks(self.manager);
         NSArray *filteredNetworks = [self filterOpenNetworks:allNetworks]; 
         NSArray *mappedNetworks = [self mapNetworks:filteredNetworks];
         self.networks = [self sortNetworks:mappedNetworks];
@@ -126,6 +127,21 @@
         }
         return result;
     }];
+}
+
+- (void) forgetNetwork:(IBWiFiNetwork *)network {
+    NSArray *allNetworks = (__bridge NSArray *) WiFiManagerClientCopyNetworks(self.manager);
+    NSArray *filteredNetworks = [self filterOpenNetworks:allNetworks]; 
+    
+    for(id networkRef in filteredNetworks) {
+        NSString *ssid = (__bridge NSString *) WiFiNetworkGetSSID((__bridge WiFiNetworkRef) networkRef);
+
+        if([ssid isEqualToString:network.name]) {
+            WiFiManagerClientRemoveNetwork(self.manager, (__bridge WiFiNetworkRef) networkRef);
+            [self loadNetworks];
+            break;
+        }
+    }
 }
 
 @end

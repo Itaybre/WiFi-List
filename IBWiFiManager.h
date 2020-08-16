@@ -9,6 +9,8 @@ typedef NS_ENUM(NSInteger, SortCriteria) {
     LAST_JOINED_DESC = 5
 };
 
+@class IBWiFiNetwork;
+
 @interface IBWiFiManager : NSObject
 
 @property (nonatomic, retain) NSArray *networks;
@@ -17,5 +19,6 @@ typedef NS_ENUM(NSInteger, SortCriteria) {
 + (instancetype) sharedManager;
 - (void) refreshNetworks;
 - (void) setFilter:(NSString *)text;
+- (void) forgetNetwork:(IBWiFiNetwork *)network;
 
 @end
