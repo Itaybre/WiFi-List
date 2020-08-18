@@ -28,7 +28,9 @@
 }
 
 - (NSDate *) lastJoinDate {
-    if ([self.lastManualJoin compare:self.lastAutoJoin] == NSOrderedDescending) {
+    if (!self.lastManualJoin && !self.lastAutoJoin) {
+        return [NSDate dateWithTimeIntervalSince1970:0];
+    } else if ([self.lastManualJoin compare:self.lastAutoJoin] == NSOrderedDescending) {
         return self.lastManualJoin;
     }
     return self.lastAutoJoin;
