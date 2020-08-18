@@ -11,7 +11,12 @@
 @implementation IBDetailViewController
 
 - (id)initWithNetwork:(IBWiFiNetwork *)network; {
-    if (self = [super initWithStyle:UITableViewStyleInsetGrouped]) {
+    UITableViewStyle style = UITableViewStylePlain;
+	if (@available(iOS 13, *)) {
+		style = UITableViewStyleInsetGrouped;
+	}
+
+    if (self = [super initWithStyle:style]) {
         self.network = network;
 
         self.formatter = [[NSDateFormatter alloc] init];
@@ -88,8 +93,13 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else {
         cell.textLabel.text = @"Create QR Code";
-        cell.textLabel.textColor = [UIColor linkColor];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
+
+	    if (@available(iOS 13, *)) {
+		    cell.textLabel.textColor = [UIColor linkColor];
+	    } else {
+            cell.textLabel.textColor = [UIColor blueColor];
+        }
     }
     
     return cell;

@@ -3,7 +3,12 @@
 @implementation IBDictionaryViewController
 
 - (id)initWithDictionary:(NSDictionary*)dictionary {
-    if (self = [super initWithStyle:UITableViewStyleInsetGrouped]) {
+    UITableViewStyle style = UITableViewStylePlain;
+	if (@available(iOS 13, *)) {
+		style = UITableViewStyleInsetGrouped;
+	}
+
+    if (self = [super initWithStyle:style]) {
         self.dictionary = dictionary;
     }
     return self;

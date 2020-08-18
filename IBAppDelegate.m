@@ -5,7 +5,11 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	_window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-	_rootViewController = [[UINavigationController alloc] initWithRootViewController:[[IBRootViewController alloc] initWithStyle:UITableViewStyleInsetGrouped]];
+	UITableViewStyle style = UITableViewStylePlain;
+	if (@available(iOS 13, *)) {
+		style = UITableViewStyleInsetGrouped;
+	}
+	_rootViewController = [[UINavigationController alloc] initWithRootViewController:[[IBRootViewController alloc] initWithStyle:style]];
 	_window.rootViewController = _rootViewController;
 	[_window makeKeyAndVisible];
 }
