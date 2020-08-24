@@ -7,19 +7,23 @@ on:
 
 jobs:
   build:
-    name: Run tests
+    name: Build App
     runs-on: macOS-latest
+    env:
+      THEOS: ~/theos
 
     steps:
     - name: Install Dependencies
       run: brew install ldid xz
-    - name: Add THEOS to ZProfile
-      run: echo "export THEOS=~/theos" >> ~/.zprofile
-    - name: Reload ZProfile
-      run: source ~/.zprofile
     - name: Clone THEOS
-      run: export THEOS=~/theos && git clone --recursive https://github.com/theos/theos.git $THEOS
+      run: git clone --recursive https://github.com/theos/theos.git $THEOS
+    - name: Download SDK
+      run: |
+        cd $$THEOS/sdk
+        git clone -b master --depth=1 git@github.com:EthanRDoesMC/iOS-13.3-SDK.git 
+        mv iOS-13.3-SDK/iPhoneOS13.3.sdk ./
+        ls
     - name: Checkout
       uses: actions/checkout@master
     - name: Build Package
-      run: export THEOS=~/theos && make package
+      run: make package
