@@ -10,7 +10,7 @@ jobs:
     name: Build App
     runs-on: macOS-latest
     env:
-      THEOS: ~/theos
+      THEOS: theos
 
     steps:
     - name: Install Dependencies
