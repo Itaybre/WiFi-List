@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - feature/CI
+
+jobs:
+  build:
+    name: Run tests
+    runs-on: macOS-latest
+
+    steps:
+    - name: Install Dependencies
+      run: brew install ldid xz
+    - name: Add THEOS to ZProfile
+      run: echo "export THEOS=~/theos" >> ~/.zprofile
+    - name: Reload ZProfile
+      run: source ~/.zprofile
+    - name: Clone THEOS
+      run: git clone --recursive https://github.com/theos/theos.git $THEOS
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Install Certificates
+      run: make package
