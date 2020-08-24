@@ -10,15 +10,20 @@ jobs:
     name: Build App
     runs-on: macOS-latest
     env:
-      THEOS: ~/theos
+      THEOS: theos
 
     steps:
     - name: Checkout
       uses: actions/checkout@master
     - name: Install Dependencies
       run: brew install ldid xz
-    - name: Clone THEOS
-      run: git clone --recursive https://github.com/theos/theos.git $THEOS
+    - name: Setup Theos
+      uses: actions/checkout@master
+      with:
+        repository: theos/theos
+        ref: 8771215f765e774bfefdacc6ddf0e151c2973d49
+        path: theos
+        submodules: recursive
     - name: Download SDK
       run: |
         cd $THEOS/sdks
@@ -39,3 +44,5 @@ jobs:
         ls $THEOS
         ls $THEOS/makefiles
         make package
+      env:
+        THEOS: theos
