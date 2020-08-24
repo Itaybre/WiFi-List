@@ -21,5 +21,6 @@ typedef NS_ENUM(NSInteger, Encryption) {
 
 - (instancetype) initWithNetwork:(WiFiNetworkRef) network;
 - (NSDate *) lastJoinDate;
+- (NSDate *) dateForSorting;
 
 @end
