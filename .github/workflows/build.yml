@@ -19,8 +19,10 @@ jobs:
       run: git clone --recursive https://github.com/theos/theos.git $THEOS
     - name: Download SDK
       run: |
-        cd $THEOS
-        git clone -b master --depth=1 git@github.com:EthanRDoesMC/iOS-13.3-SDK.git sdks
+        cd $THEOS/sdks
+        git clone -b master --depth=1 git@github.com:EthanRDoesMC/iOS-13.3-SDK.git 
+        mv ./iOS-13.3-SDK/iPhoneOS13.3.sdk ./
+        ls
     - name: Checkout
       uses: actions/checkout@master
     - name: Build Package
