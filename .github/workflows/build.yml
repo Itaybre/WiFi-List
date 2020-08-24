@@ -35,5 +35,7 @@ jobs:
     - name: Build Package
       run: | 
         pwd
-        export THEOS=~/theos
+        echo $THEOS
+        ls $THEOS
+        ls $THEOS/makefiles
         make package
