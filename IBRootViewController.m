@@ -84,6 +84,11 @@
 	[alert addAction:joinedActionDesc];
 	[alert addAction:cancelAction];
 
+	[[alert popoverPresentationController] setSourceView:self.view];
+	[[alert popoverPresentationController] setSourceRect:CGRectMake(0,0,1,1)];
+	[[alert popoverPresentationController] setPermittedArrowDirections:UIPopoverArrowDirectionUp];
+
+
 	[self presentViewController:alert animated:YES completion:nil];
 }
 
