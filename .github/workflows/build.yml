@@ -28,7 +28,11 @@ jobs:
     - name: Debug List Files
       run: |
         ls
+        pwd
         cd $THEOS
+        pwd
         ls
     - name: Build Package
-      run: make package
+      run: | 
+        pwd
+        make package
