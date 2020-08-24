@@ -25,5 +25,10 @@ jobs:
         ls
     - name: Checkout
       uses: actions/checkout@master
+    - name: Debug List Files
+      run: |
+        ls
+        cd $THEOS
+        ls
     - name: Build Package
       run: make package
