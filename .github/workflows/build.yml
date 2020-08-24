@@ -18,8 +18,8 @@ jobs:
     - name: Reload ZProfile
       run: source ~/.zprofile
     - name: Clone THEOS
-      run: git clone --recursive https://github.com/theos/theos.git $THEOS
+      run: export THEOS=~/theos && git clone --recursive https://github.com/theos/theos.git $THEOS
     - name: Checkout
       uses: actions/checkout@master
-    - name: Install Certificates
-      run: make package
+    - name: Build Package
+      run: export THEOS=~/theos && make package
