@@ -103,7 +103,7 @@
 
 - (NSArray *) sortByAdded:(NSArray *)networks ascending:(BOOL) ascending {
     return [networks sortedArrayUsingComparator: ^(IBWiFiNetwork *network1, IBWiFiNetwork *network2) {
-        NSComparisonResult result = [network1.added compare:network2.added];
+        NSComparisonResult result = [[network1 dateForSorting] compare:[network2 dateForSorting]];
         if (ascending) {
             return result;
         } else if (result == NSOrderedAscending) {

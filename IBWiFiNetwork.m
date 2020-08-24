@@ -36,4 +36,12 @@
     return self.lastAutoJoin;
 }
 
+- (NSDate *) dateForSorting {
+    if (!self.added) {
+        return [NSDate dateWithTimeIntervalSince1970:0];
+    }
+
+    return self.added;
+}
+
 @end
