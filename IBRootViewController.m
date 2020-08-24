@@ -55,7 +55,7 @@
 }
 
 - (void) sortTapped:(id)sender {
-	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Sort Order" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sort Order" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
 	UIAlertAction *nameActionAsc = [UIAlertAction actionWithTitle:@"Name Ascending" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
 		[self setSortOrder:NAME_ASC];
 	}];
@@ -76,15 +76,19 @@
 	}];
 	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
 
-	[alert addAction:nameActionAsc];
-	[alert addAction:nameActionDesc];
-	[alert addAction:addedActionAsc];
-	[alert addAction:addedActionDesc];
-	[alert addAction:joinedActionAsc];
-	[alert addAction:joinedActionDesc];
-	[alert addAction:cancelAction];
+	[alertController addAction:nameActionAsc];
+	[alertController addAction:nameActionDesc];
+	[alertController addAction:addedActionAsc];
+	[alertController addAction:addedActionDesc];
+	[alertController addAction:joinedActionAsc];
+	[alertController addAction:joinedActionDesc];
+	[alertController addAction:cancelAction];
 
-	[self presentViewController:alert animated:YES completion:nil];
+	[[alertController popoverPresentationController] setSourceView:self.view];
+	[[alertController popoverPresentationController] setSourceRect:CGRectMake(0,0,1,1)];
+	[[alertController popoverPresentationController] setPermittedArrowDirections:UIPopoverArrowDirectionUp];
+
+	[self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void) setSortOrder:(SortCriteria) newCriteria {
