@@ -2,8 +2,8 @@ name: Build
 
 on:
   push:
-    branches:
-      - feature/CI
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -30,19 +30,30 @@ jobs:
         repository: Itaybre/iPhoneOS13.3.sdk
         ref: 883201e5f94742401cb9a85bdaefd2c8ed3461ba
         path: theos/sdks/iPhoneOS13.3.sdk
-    - name: Debug List Files
-      run: |
-        ls
-        pwd
-        cd $THEOS
-        pwd
-        ls
     - name: Build Package
+      id: build_package
       run: | 
-        pwd
-        echo $THEOS
-        ls $THEOS
-        ls $THEOS/makefiles
-        make package
+        make package FINALPACKAGE=1
+        echo "::set-output name=package::$(ls -t packages | head -n1)"
       env:
         THEOS: theos
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./packages/${{ steps.create_release.outputs.package }}
+        asset_name: ${{ steps.create_release.outputs.package }}
+        asset_content_type: application/vnd.debian.binary-package
