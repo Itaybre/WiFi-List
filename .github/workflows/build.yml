@@ -29,7 +29,7 @@ jobs:
       with:
         repository: Itaybre/iPhoneOS13.3.sdk
         ref: 883201e5f94742401cb9a85bdaefd2c8ed3461ba
-        path: theos/sdks
+        path: theos/sdks/iPhoneOS13.3.sdk
     - name: Debug List Files
       run: |
         ls
