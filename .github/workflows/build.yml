@@ -54,6 +54,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./packages/${{ steps.create_release.outputs.package }}
-        asset_name: ${{ steps.create_release.outputs.package }}
+        asset_path: ./packages/${{ steps.build_package.outputs.package }}
+        asset_name: ${{ steps.build_package.outputs.package }}
         asset_content_type: application/vnd.debian.binary-package
